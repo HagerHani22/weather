@@ -8,7 +8,7 @@ class WeatherService {
   String apiKey = "ae9284cc8cd247408b4105628240407";
   Future<WeatherModel> getWeather({required String cityName}) async {
     Uri url = Uri.parse(
-        "$baseUrl/forecast.json?key=$apiKey&q=$cityName&days=7");
+        "$baseUrl/forecast.json?q=$cityName&days=3&key=$apiKey");
     http.Response response = await http.get(url);
     Map<String, dynamic> data=jsonDecode(response.body);
     print(data);
