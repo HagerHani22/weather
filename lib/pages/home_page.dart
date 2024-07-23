@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:weather/pages/search.dart';
@@ -57,7 +56,6 @@ class _HomePageState extends State<HomePage> {
                     },
                     icon: const Icon(
                       Icons.search,
-                      color: Colors.white,
                     ))
               ],
             ),
@@ -79,12 +77,18 @@ class _HomePageState extends State<HomePage> {
             )
           : Center(
               child: Container(
-                decoration: const BoxDecoration(
-                    gradient: LinearGradient(
-                  colors: [Colors.blue, Colors.white],
-                  begin: Alignment.topRight,
-                  end: Alignment.bottomLeft,
-                )),
+                decoration: BoxDecoration(
+                    gradient: weatherData!.current!.condition!.text == "Sunny"
+                        ? const LinearGradient(
+                            colors: [Colors.yellow, Colors.white],
+                            begin: Alignment.topRight,
+                            end: Alignment.bottomLeft,
+                          )
+                        : const LinearGradient(
+                            colors: [Colors.blue, Colors.white],
+                            begin: Alignment.topRight,
+                            end: Alignment.bottomLeft,
+                          )),
                 child: Padding(
                   padding: const EdgeInsets.all(16.0),
                   child: Column(
@@ -100,32 +104,76 @@ class _HomePageState extends State<HomePage> {
                       const SizedBox(
                         height: 8,
                       ),
-                      Image(image: NetworkImage('https:${weatherData!.current!.condition!.icon}')),
-                      Text(
-                        '${weatherData!.current!.tempC?.ceil()} °C',
-                        style: const TextStyle(fontSize: 60),
+                      Image(
+                          image: NetworkImage(
+                              'https:${weatherData!.current!.condition!.icon}')),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            '${weatherData!.current!.tempC?.round()} ',
+                            style: const TextStyle(fontSize: 60),
+                          ),
+                          const Text(
+                            '°C',
+                            style: TextStyle(fontSize: 30),
+                          ),
+                        ],
                       ),
                       Text(weatherData!.current!.condition!.text!),
                       Expanded(
                         child: ListView.separated(
-                            itemBuilder: (context, i) =>
-                                Row(
+                            itemBuilder: (context, i) => Row(
                                   children: [
-                                    Text(weatherData!.forecast!.forecastday![i].date!),
+                                    Text(weatherData!
+                                        .forecast!.forecastday![i].date!),
                                     const SizedBox(
                                       width: 10,
                                     ),
-                                    i==0?const Text('Today'):const Text(''),
+                                    i == 0
+                                        ? const Text('Today')
+                                        : const Text(''),
+                                    const SizedBox(
+                                      width: 60,
+                                    ),
+                                    i == 0
+                                        ? Container()
+                                        : Image(
+                                            image: NetworkImage(
+                                                'https:${weatherData!.forecast!.forecastday![i].day!.condition!.icon}',
+                                                scale: 2),
+                                          ),
                                     const Spacer(),
-                                    Text('${weatherData!.forecast!.forecastday![i].day!.mintempC} '),
+                                    Text(
+                                        '${weatherData!.forecast!.forecastday![i].day!.mintempC} '),
                                     const SizedBox(
                                       width: 10,
                                     ),
-                                    Text('${weatherData!.forecast!.forecastday![i].day!.maxtempC} '),
+                                    Text(
+                                        '${weatherData!.forecast!.forecastday![i].day!.maxtempC} '),
                                   ],
                                 ),
-                            separatorBuilder: (context, index) => const Divider(),
-                            itemCount: weatherData!.forecast!.forecastday!.length),
+                            separatorBuilder: (context, index) =>
+                                const Divider(),
+                            itemCount:
+                                weatherData!.forecast!.forecastday!.length),
+                      ),
+                      const Divider(),
+                      const Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          Icon(Icons.wind_power),
+                          Icon(Icons.water_drop),
+                          Icon(Icons.thermostat),
+                        ],
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          Text('${weatherData!.current!.windKph}'),
+                          Text('${weatherData!.current!.humidity}'),
+                          Text('${weatherData!.current!.pressureIn}'),
+                        ],
                       )
                     ],
                   ),
@@ -135,4 +183,3 @@ class _HomePageState extends State<HomePage> {
     );
   }
 }
-
