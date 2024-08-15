@@ -11,9 +11,15 @@ class WeatherService {
         "$baseUrl/forecast.json?q=$cityName&days=3&key=$apiKey");
     http.Response response = await http.get(url);
     Map<String, dynamic> data=jsonDecode(response.body);
-    print(data);
+    if (response.statusCode != 200) {
+      throw Exception(data['error']['message']);
+    }
+    if (data['location'] == null) {
+      throw Exception(data['error']['message']);
+    }
+    print('dddddd$data');
     WeatherModel weather=WeatherModel.fromJson(data);
-    print(weather);
+    print('wwwwwww$weather');
 
     return weather;
 

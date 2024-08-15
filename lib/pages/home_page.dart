@@ -81,13 +81,13 @@ class _HomePageState extends State<HomePage> {
                     gradient: weatherData!.current!.condition!.text == "Sunny"
                         ? const LinearGradient(
                             colors: [Colors.yellow, Colors.white],
-                            begin: Alignment.topRight,
-                            end: Alignment.bottomLeft,
+                            begin: Alignment.topCenter,
+                            end: Alignment.bottomCenter,
                           )
                         : const LinearGradient(
                             colors: [Colors.blue, Colors.white],
-                            begin: Alignment.topRight,
-                            end: Alignment.bottomLeft,
+                            begin: Alignment.topCenter,
+                            end: Alignment.bottomCenter,
                           )),
                 child: Padding(
                   padding: const EdgeInsets.all(16.0),

@@ -45,12 +45,11 @@ class Search extends StatelessWidget {
             cityName = value;
             WeatherService service = WeatherService();
             // service.getWeather(cityName: cityName!);
-            WeatherModel weather =
-                await service.getWeather(cityName: cityName!);
+            WeatherModel weather = await service.getWeather(cityName: cityName!);
             // weatherData = weather;
             Provider.of<WeatherProvider>(context, listen: false).weatherData = weather;
             // updateUi!();
-            print(weather);
+            print('hhhhhhhhh$weather');
             Navigator.pop(context);
           },
         ),
